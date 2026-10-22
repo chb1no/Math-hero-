@@ -4,548 +4,261 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Математикчин - 8-р анги</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-    }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: #f1f5f9;
-      color: #1e293b;
-      display: flex;
-      justify-content: center;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-    .app-container {
-      width: 100%;
-      max-width: 440px;
-      background: #ffffff;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      padding-bottom: 75px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-      overflow-x: hidden;
-    }
-    /* Header */
-    header {
-      background: linear-gradient(135deg, #4f46e5, #4338ca);
-      color: white;
-      padding: 14px 16px;
-      border-radius: 0 0 18px 18px;
-      position: sticky;
-      top: 0;
-      z-index: 30;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    .header-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: #6366f1;
-      border: 2px solid #a5b4fc;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-    }
-    .user-details .sub {
-      font-size: 11px;
-      color: #c7d2fe;
-    }
-    .user-details .main {
-      font-size: 13px;
-      font-weight: bold;
-    }
-    .badge-tag {
-      background: rgba(49, 46, 129, 0.7);
-      padding: 2px 7px;
-      border-radius: 10px;
-      font-size: 10px;
-      margin-left: 4px;
-    }
-    .streak-badge {
-      background: rgba(49, 46, 129, 0.8);
-      border: 1px solid rgba(165, 180, 252, 0.3);
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: bold;
-      color: #fde047;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .xp-bar-bg {
-      background: rgba(30, 27, 75, 0.6);
-      border-radius: 10px;
-      height: 8px;
-      overflow: hidden;
-      margin-top: 4px;
-    }
-    .xp-bar-fill {
-      background: linear-gradient(90deg, #facc15, #f59e0b);
-      height: 100%;
-      width: 5%;
-      transition: width 0.4s ease;
-    }
-
-    /* Main Content */
-    main {
-      padding: 14px;
-      flex: 1;
-    }
-    .tab-page {
-      display: none; /* Баталгаатай нуух */
-      width: 100%;
-      animation: fadeIn 0.2s ease-in;
-    }
-    .tab-page.active {
-      display: block; /* Зөвхөн идэвхтэй таб харагдана */
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Cards */
-    .card {
-      background: white;
-      border-radius: 16px;
-      padding: 14px;
-      border: 1px solid #e2e8f0;
-      margin-bottom: 12px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
-    }
-    .banner {
-      background: linear-gradient(135deg, #7c3aed, #4f46e5);
-      color: white;
-      border: none;
-    }
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-    .action-btn {
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 14px;
-      padding: 12px;
-      text-align: left;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 8px;
-    }
-    .action-btn:active {
-      transform: scale(0.97);
-    }
-    .action-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-    }
-
-    /* Step items */
-    .step-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #f8fafc;
-      padding: 10px;
-      border-radius: 12px;
-      border: 1px solid #e2e8f0;
-      margin-top: 8px;
-    }
-    .step-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .step-num {
-      width: 26px;
-      height: 26px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: bold;
-    }
-
-    /* Badges */
-    .badges-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      text-align: center;
-      margin-top: 8px;
-    }
-    .badge-box {
-      background: #f8fafc;
-      border: 1px solid #f1f5f9;
-      border-radius: 12px;
-      padding: 8px 4px;
-      font-size: 20px;
-    }
-    .badge-title {
-      font-size: 10px;
-      color: #64748b;
-      margin-top: 4px;
-      display: block;
-    }
-    .grayscale {
-      filter: grayscale(100%);
-      opacity: 0.5;
-    }
-
-    /* Quiz buttons & options */
-    .btn-primary {
-      width: 100%;
-      background: #4f46e5;
-      color: white;
-      border: none;
-      padding: 12px;
-      border-radius: 12px;
-      font-weight: bold;
-      font-size: 13px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    .btn-primary:active {
-      transform: scale(0.98);
-    }
-    .quiz-option {
-      width: 100%;
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 12px;
-      margin-top: 8px;
-      text-align: left;
-      font-size: 13px;
-      font-weight: 600;
-      color: #334155;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-    }
-    .quiz-option:active {
-      background: #eef2ff;
-      border-color: #6366f1;
-    }
-
-    /* Upload zone */
-    .upload-box {
-      border: 2px dashed #cbd5e1;
-      border-radius: 16px;
-      padding: 20px 10px;
-      text-align: center;
-      cursor: pointer;
-      background: #f8fafc;
-      margin-top: 10px;
-    }
-
-    /* Bottom Navbar */
-    nav {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      max-width: 440px;
-      background: white;
-      border-top: 1px solid #e2e8f0;
-      display: flex;
-      justify-content: space-around;
-      padding: 8px 0;
-      z-index: 40;
-    }
-    .nav-btn {
-      background: none;
-      border: none;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3px;
-      color: #94a3b8;
-      font-size: 10px;
-      font-weight: bold;
-      cursor: pointer;
-      width: 25%;
-    }
-    .nav-btn i {
-      font-size: 18px;
-    }
-    .nav-btn.active {
-      color: #4f46e5;
-    }
+    html, body { overflow-x: hidden !important; width: 100%; -webkit-tap-highlight-color: transparent; }
+    .tab-page { display: none !important; }
+    .tab-page.active { display: block !important; }
   </style>
 </head>
-<body>
-
-  <div class="app-container">
+<body class="bg-slate-900 flex justify-center min-h-screen text-slate-800">
+  <div class="w-full max-w-md bg-slate-50 min-h-screen flex flex-col relative pb-20 overflow-x-hidden">
     
-    <!-- Дээд хэсэг -->
-    <header>
-      <div class="header-top">
-        <div class="user-info">
-          <div class="avatar">🧙‍♂️</div>
-          <div class="user-details">
-            <div class="sub">8-р ангийн сурагч</div>
-            <div class="main">Түвшин <span id="user-level" style="color: #fde047;">1</span> <span class="badge-tag" id="badge-title">Дагалдан</span></div>
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-4 rounded-b-3xl shadow-lg sticky top-0 z-30">
+      <div class="flex justify-between items-center mb-2">
+        <div class="flex items-center gap-2">
+          <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center text-lg">🧙‍♂️</div>
+          <div>
+            <div class="text-[10px] text-indigo-100">8-р анги</div>
+            <div class="text-xs font-black">Түвшин <span id="user-level" class="text-amber-300">1</span></div>
           </div>
         </div>
-        <div class="streak-badge">
-          <i class="fa-solid fa-fire" style="color: #f59e0b;"></i>
-          <span id="streak-count">1</span> өдөр
-        </div>
+        <div class="bg-black/20 px-2.5 py-1 rounded-full text-xs font-bold text-amber-300">🔥 <span id="streak-count">1</span> өдөр</div>
       </div>
-
-      <div>
-        <div style="display: flex; justify-content: space-between; font-size: 10px; color: #c7d2fe; font-weight: bold;">
-          <span>Ахиц: <span id="current-xp" style="color: white;">0</span> / <span id="max-xp">100</span> XP</span>
-          <span style="color: #fde047;">+20 XP даалгавар бүрт</span>
-        </div>
-        <div class="xp-bar-bg">
-          <div id="xp-progress-bar" class="xp-bar-fill"></div>
-        </div>
+      <div class="flex justify-between text-[10px] font-bold text-indigo-100 mb-1">
+        <span>Ахиц: <span id="current-xp" class="text-white">0</span> / <span id="max-xp">100</span> XP</span>
+        <span class="text-amber-300">+20 XP даалгавар бүрт</span>
+      </div>
+      <div class="w-full bg-black/20 rounded-full h-2 overflow-hidden">
+        <div id="xp-progress-bar" class="bg-gradient-to-r from-amber-400 to-yellow-300 h-full rounded-full transition-all duration-300" style="width: 5%"></div>
       </div>
     </header>
 
-    <!-- Үндсэн хуудсууд -->
-    <main>
-      
+    <!-- Main Content -->
+    <main class="flex-1 p-4 space-y-4">
       <!-- TAB 1: Нүүр -->
-      <section id="tab-home" class="tab-page active">
-        <div class="card banner">
-          <span style="background: rgba(255,255,255,0.2); font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: bold;">💡 Өдрийн урам</span>
-          <h3 style="font-size: 14px; margin-top: 6px; line-height: 1.4;">"Алдаа бол суралцах замд гардаг хамгийн сайн багш!"</h3>
-          <p style="font-size: 11px; opacity: 0.9; margin-top: 4px;">Битгий шантраарай. Жижиг алхмаар эхнээс нь хамтдаа нөхье.</p>
+      <section id="tab-home" class="tab-page active space-y-3">
+        <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-4 text-white shadow-md">
+          <span class="bg-white/20 text-[10px] font-bold px-2 py-0.5 rounded-full">💡 УРАМ</span>
+          <h3 class="text-sm font-bold mt-2">"Алдаа бол суралцах хамгийн сайн багш!"</h3>
+          <p class="text-xs text-indigo-100 mt-1">Ойлгохгүй байгаагаас битгий ай, бага багаар нөхье.</p>
         </div>
 
-        <div class="grid-2">
-          <div class="action-btn" onclick="switchTab('quiz')">
-            <div class="action-icon" style="background: #eff6ff; color: #2563eb;">
-              <i class="fa-solid fa-clipboard-check"></i>
-            </div>
-            <div>
-              <div style="font-size: 10px; color: #94a3b8; font-weight: bold;">ОНОШИЛГОО</div>
-              <div style="font-size: 13px; font-weight: bold; color: #1e293b;">Түвшин тогтоох</div>
-              <div style="font-size: 10px; color: #64748b;">Хоцрогдлоо олох</div>
-            </div>
-          </div>
-
-          <div class="action-btn" onclick="switchTab('solver')">
-            <div class="action-icon" style="background: #faf5ff; color: #9333ea;">
-              <i class="fa-solid fa-camera"></i>
-            </div>
-            <div>
-              <div style="font-size: 10px; color: #94a3b8; font-weight: bold;">ЗУРГААР БОДОХ</div>
-              <div style="font-size: 13px; font-weight: bold; color: #1e293b;">AI Туслах багш</div>
-              <div style="font-size: 10px; color: #64748b;">Зураг дараад тайлбарлах</div>
-            </div>
-          </div>
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="switchTab('quiz')" class="bg-white p-3.5 rounded-2xl border border-slate-200 text-left shadow-sm active:scale-95 transition">
+            <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center text-sm mb-2"><i class="fa-solid fa-clipboard-check"></i></div>
+            <div class="text-[10px] text-slate-400 font-bold uppercase">Оношилгоо</div>
+            <div class="text-xs font-black text-slate-800">Түвшин шалгах</div>
+          </button>
+          <button onclick="switchTab('solver')" class="bg-white p-3.5 rounded-2xl border border-slate-200 text-left shadow-sm active:scale-95 transition">
+            <div class="w-8 h-8 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center text-sm mb-2"><i class="fa-solid fa-camera"></i></div>
+            <div class="text-[10px] text-slate-400 font-bold uppercase">AI Багш</div>
+            <div class="text-xs font-black text-slate-800">Зургаар бодох</div>
+          </button>
         </div>
 
-        <!-- Газрын зураг -->
-        <div class="card">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-            <span style="font-size: 11px; font-weight: bold; color: #475569;"><i class="fa-solid fa-route" style="color: #6366f1;"></i> СУУРЬ СЭДВҮҮДИЙН ЗУРАГ</span>
-            <span id="roadmap-summary" style="font-size: 11px; color: #4f46e5; font-weight: bold;">Шалгаагүй</span>
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+          <div class="flex justify-between items-center text-xs font-bold text-slate-600">
+            <span>СУУРЬ СЭДВҮҮДИЙН ЗУРАГ</span>
+            <span id="roadmap-summary" class="text-indigo-600">Шалгаагүй</span>
           </div>
-
-          <div class="step-item">
-            <div class="step-left">
-              <span class="step-num" style="background: #dcfce7; color: #16a34a;">1</span>
-              <div>
-                <div style="font-size: 12px; font-weight: bold;">6-р анги: Сөрөг тооны үйлдэл</div>
-                <div style="font-size: 10px; color: #94a3b8;">Нэмэх, хасах, хаалт задлах</div>
-              </div>
-            </div>
-            <span id="step-status-1" style="font-size: 11px; font-weight: bold; color: #94a3b8;">Шалгах</span>
+          <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 border border-slate-100 text-xs">
+            <span>1. 6-р анги: Сөрөг тооны үйлдэл</span>
+            <span id="step-status-1" class="font-bold text-slate-400">Шалгах</span>
           </div>
-
-          <div class="step-item">
-            <div class="step-left">
-              <span class="step-num" style="background: #dbeafe; color: #2563eb;">2</span>
-              <div>
-                <div style="font-size: 12px; font-weight: bold;">7-р анги: Шугаман тэгшитгэл</div>
-                <div style="font-size: 10px; color: #94a3b8;">Үл мэдэгдэгч x-ийг олох суурь</div>
-              </div>
-            </div>
-            <span id="step-status-2" style="font-size: 11px; font-weight: bold; color: #94a3b8;">Шалгах</span>
+          <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 border border-slate-100 text-xs">
+            <span>2. 7-р анги: Шугаман тэгшитгэл</span>
+            <span id="step-status-2" class="font-bold text-slate-400">Шалгах</span>
           </div>
-
-          <div class="step-item">
-            <div class="step-left">
-              <span class="step-num" style="background: #f3e8ff; color: #9333ea;">3</span>
-              <div>
-                <div style="font-size: 12px; font-weight: bold;">8-р анги: Пифагорын теорем & Функц</div>
-                <div style="font-size: 10px; color: #94a3b8;">Шугаман хамаарал, катет олох</div>
-              </div>
-            </div>
-            <span id="step-status-3" style="font-size: 11px; font-weight: bold; color: #94a3b8;">Шалгах</span>
-          </div>
-        </div>
-
-        <!-- Тэмдэгнүүд -->
-        <div class="card">
-          <span style="font-size: 11px; font-weight: bold; color: #475569;"><i class="fa-solid fa-medal" style="color: #f59e0b;"></i> ЦУГЛУУЛСАН ТЭМДГҮҮД</span>
-          <div class="badges-row">
-            <div class="badge-box">
-              <span id="badge-icon-1" class="grayscale">🎯</span>
-              <span class="badge-title">Оношлуулагч</span>
-            </div>
-            <div class="badge-box">
-              <span id="badge-icon-2" class="grayscale">⚡</span>
-              <span class="badge-title">Тэгшитгэлч</span>
-            </div>
-            <div class="badge-box">
-              <span id="badge-icon-3" class="grayscale">📸</span>
-              <span class="badge-title">Зурагчин</span>
-            </div>
-            <div class="badge-box">
-              <span id="badge-icon-4" class="grayscale">🏆</span>
-              <span class="badge-title">Мастер</span>
-            </div>
+          <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 border border-slate-100 text-xs">
+            <span>3. 8-р анги: Пифагор & Функц</span>
+            <span id="step-status-3" class="font-bold text-slate-400">Шалгах</span>
           </div>
         </div>
       </section>
 
-      <!-- TAB 2: Түвшин тогтоох сорил -->
-      <section id="tab-quiz" class="tab-page">
-        <div id="quiz-intro" class="card" style="text-align: center; padding: 24px 14px;">
-          <div style="width: 50px; height: 50px; background: #eef2ff; color: #4f46e5; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; margin: 0 auto 10px auto;">
-            <i class="fa-solid fa-compass"></i>
-          </div>
-          <h3 style="font-size: 15px; font-weight: bold;">8-р ангийн математикийн суурь сорил</h3>
-          <p style="font-size: 11px; color: #64748b; margin: 8px 0 16px 0; line-height: 1.5;">
-            Энэ нь 5 асуулттай сорил юм. Алдсан ч санаа зовох хэрэггүй! Гол нь яг аль сэдвийн ойлголт дутуу байгааг олоход тусална.
-          </p>
-          <button class="btn-primary" onclick="startQuiz()">Сорилыг эхлүүлэх 🚀</button>
+      <!-- TAB 2: Сорил -->
+      <section id="tab-quiz" class="tab-page space-y-3">
+        <div id="quiz-intro" class="bg-white p-5 rounded-2xl border border-slate-200 text-center space-y-3">
+          <div class="text-3xl">🧭</div>
+          <h3 class="text-sm font-bold">8-р ангийн түвшин тогтоох сорил</h3>
+          <p class="text-xs text-slate-500">5 асуулттай жижиг тест. Хоцрогдлоо олж мэдэхэд тусална.</p>
+          <button onclick="startQuiz()" class="w-full py-2.5 bg-indigo-600 text-white rounded-xl font-bold text-xs shadow">Сорилыг эхлүүлэх 🚀</button>
         </div>
 
-        <div id="quiz-container" class="card" style="display: none;">
-          <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; color: #64748b; margin-bottom: 8px;">
+        <div id="quiz-container" class="hidden bg-white p-4 rounded-2xl border border-slate-200 space-y-3">
+          <div class="flex justify-between text-xs font-bold text-slate-500">
             <span id="quiz-progress-text">Асуулт 1 / 5</span>
-            <span id="quiz-category-tag" style="color: #4f46e5;">Суурь</span>
+            <span id="quiz-category-tag" class="text-indigo-600">Суурь</span>
           </div>
-
-          <div style="background: #f1f5f9; border-radius: 10px; height: 6px; overflow: hidden; margin-bottom: 12px;">
-            <div id="quiz-progress-bar" style="background: #4f46e5; height: 100%; width: 20%; transition: width 0.3s;"></div>
+          <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+            <div id="quiz-progress-bar" class="bg-indigo-600 h-full rounded-full" style="width: 20%"></div>
           </div>
-
-          <div id="quiz-question" style="font-size: 13px; font-weight: bold; margin-bottom: 12px;">
-            Асуулт ачаалж байна...
-          </div>
-
-          <div id="quiz-options"></div>
+          <div id="quiz-question" class="text-xs font-bold text-slate-800"></div>
+          <div id="quiz-options" class="space-y-2"></div>
         </div>
 
-        <div id="quiz-result" class="card" style="display: none; text-align: center; padding: 20px 14px;">
-          <div style="font-size: 36px; margin-bottom: 8px;">🎯</div>
-          <h3 id="result-title" style="font-size: 15px; font-weight: bold;">Оношилгоо гарлаа</h3>
-          <p id="result-desc" style="font-size: 11px; color: #64748b; margin: 6px 0 12px 0;"></p>
-          
-          <div style="background: #eef2ff; border-radius: 12px; padding: 10px; text-align: left; margin-bottom: 12px;">
-            <div style="font-size: 10px; font-weight: bold; color: #6366f1;">📍 ЧИНИЙ ЭХЛЭХ ЦЭГ:</div>
-            <div id="recommended-start" style="font-size: 12px; font-weight: bold; color: #312e81; margin-top: 2px;"></div>
+        <div id="quiz-result" class="hidden bg-white p-5 rounded-2xl border border-slate-200 text-center space-y-3">
+          <div class="text-4xl">🎯</div>
+          <h3 id="result-title" class="text-sm font-bold">Оношилгоо гарлаа</h3>
+          <p id="result-desc" class="text-xs text-slate-500"></p>
+          <div class="bg-indigo-50 p-3 rounded-xl text-left">
+            <div class="text-[10px] font-bold text-indigo-500">📍 ЭХЛЭХ ЦЭГ:</div>
+            <div id="recommended-start" class="text-xs font-bold text-indigo-900 mt-0.5"></div>
           </div>
-
-          <button class="btn-primary" onclick="switchTab('roadmap')">Төлөвлөгөөгөө харах 📋</button>
+          <button onclick="switchTab('roadmap')" class="w-full py-2.5 bg-indigo-600 text-white rounded-xl font-bold text-xs">Төлөвлөгөөгөө харах 📋</button>
         </div>
       </section>
 
       <!-- TAB 3: Эндээс эхэл -->
-      <section id="tab-roadmap" class="tab-page">
-        <div class="card">
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <span style="width: 8px; height: 8px; border-radius: 50%; background: #10b981;"></span>
-            <h3 style="font-size: 13px; font-weight: bold;">Чиний хувийн хоцрогдол арилгах зам</h3>
+      <section id="tab-roadmap" class="tab-page space-y-3">
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 space-y-2">
+          <div class="flex justify-between items-center">
+            <span class="bg-indigo-100 text-indigo-700 text-[10px] font-bold px-2 py-0.5 rounded-full">АЛХАМ 1: СУУРЬ</span>
+            <span class="text-xs font-bold text-amber-500">+30 XP</span>
           </div>
-          <p style="font-size: 11px; color: #64748b; margin-top: 4px; line-height: 1.4;">
-            8-р ангийн томьёо хэцүү санагдсан бол шалтгаан нь ердөө л энэ жижиг дүрэмд байгаа!
-          </p>
-        </div>
-
-        <div class="card" style="border: 2px solid #a5b4fc;">
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="background: #eef2ff; color: #4338ca; font-size: 10px; font-weight: bold; padding: 2px 6px; border-radius: 8px;">АЛХАМ 1: СУУРЬ ДҮРЭМ</span>
-            <span style="font-size: 11px; font-weight: bold; color: #f59e0b;">+30 XP</span>
-          </div>
-
-          <h4 style="font-size: 13px; font-weight: bold; margin-top: 8px;">Сөрөг тоог хасахад нэмэх болдог</h4>
-
-          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px; margin: 8px 0; font-family: monospace; font-size: 12px;">
-            <div style="color: #4f46e5; font-weight: bold; font-family: sans-serif; font-size: 10px;">ДҮРЭМ САНАХ ОЙ:</div>
+          <h4 class="text-xs font-bold">Сөрөг тоог хасахад нэмэх болдог</h4>
+          <div class="bg-slate-50 p-2.5 rounded-xl font-mono text-[11px] text-slate-700">
             <div>5 - (-3) = 5 + 3 = 8</div>
-            <div style="font-size: 10px; color: #64748b; font-family: sans-serif; margin-top: 4px;">Хасах хасах нийлээд нэмэх (+) болно!</div>
+            <div class="text-[10px] text-slate-400 font-sans mt-0.5">Хасах хасах нь нийлээд нэмэх (+) болно!</div>
           </div>
-
-          <div style="margin-top: 10px;">
-            <div style="font-size: 11px; font-weight: bold; color: #475569;">Шуурхай 10 секундийн дасгал:</div>
-            <div style="background: #f1f5f9; padding: 8px; border-radius: 8px; text-align: center; font-weight: bold; color: #4f46e5; margin: 6px 0; font-size: 13px;">
-              -4 - (-6) = ?
+          <div class="pt-1">
+            <div class="text-xs font-bold mb-1">Шуурхай дасгал: -4 - (-6) = ?</div>
+            <div class="grid grid-cols-3 gap-2">
+              <button onclick="checkMicro(-10)" class="py-2 bg-slate-100 rounded-lg text-xs font-bold">-10</button>
+              <button onclick="checkMicro(2)" class="py-2 bg-slate-100 rounded-lg text-xs font-bold">+2</button>
+              <button onclick="checkMicro(-2)" class="py-2 bg-slate-100 rounded-lg text-xs font-bold">-2</button>
             </div>
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;">
-              <button class="quiz-option" style="justify-content: center; margin: 0; padding: 8px;" onclick="checkMicroAnswer(-10)">-10</button>
-              <button class="quiz-option" style="justify-content: center; margin: 0; padding: 8px;" onclick="checkMicroAnswer(2)">+2</button>
-              <button class="quiz-option" style="justify-content: center; margin: 0; padding: 8px;" onclick="checkMicroAnswer(-2)">-2</button>
-            </div>
-            <div id="micro-feedback" style="font-size: 11px; text-align: center; font-weight: bold; margin-top: 6px; display: none;"></div>
+            <div id="micro-feedback" class="text-xs font-bold mt-2 text-center hidden"></div>
           </div>
         </div>
       </section>
 
-      <!-- TAB 4: Зураг дарж тайлбарлуулах AI Туслах -->
-      <section id="tab-solver" class="tab-page">
-        <div class="card">
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <div style="width: 32px; height: 32px; border-radius: 8px; background: #faf5ff; color: #9333ea; display: flex; align-items: center; justify-content: center;">
-              <i class="fa-solid fa-wand-magic-sparkles"></i>
-            </div>
-            <div>
-              <h3 style="font-size: 13px; font-weight: bold;">AI Туслах багш</h3>
-              <p style="font-size: 10px; color: #94a3b8;">Ойлгохгүй байгаа бодлогын зургаа оруулаарай</p>
-            </div>
+      <!-- TAB 4: AI Багш -->
+      <section id="tab-solver" class="tab-page space-y-3">
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 space-y-3">
+          <h3 class="text-xs font-bold text-slate-800">📸 Бодлогын зургаа оруулах</h3>
+          <input type="file" id="homework-image" accept="image/*" class="hidden" onchange="previewImg(event)">
+          <div onclick="document.getElementById('homework-image').click()" class="border-2 border-dashed border-indigo-200 rounded-2xl p-4 text-center cursor-pointer bg-slate-50">
+            <div id="up-ph" class="text-xs text-slate-500 font-bold">Зураг сонгох / дарах</div>
+            <img id="img-prev" class="hidden max-h-36 mx-auto rounded-xl">
           </div>
+          <button onclick="solve()" id="sol-btn" class="w-full py-2.5 bg-indigo-600 text-white rounded-xl font-bold text-xs shadow">AI Багшаар тайлбарлуулах (+20 XP)</button>
+        </div>
+        <div id="sol-card" class="hidden bg-white p-4 rounded-2xl border border-indigo-100 text-xs space-y-2">
+          <div class="font-bold border-b pb-1">🧑‍🏫 AI Багшийн тайлбар:</div>
+          <div id="sol-text"></div>
+        </div>
+      </section>
+    </main>
 
-          <input type="file" id="homework-image" accept="image/*" style="display: none;" onchange="handleImageSelected(event)">
+    <!-- Bottom Nav -->
+    <nav class="fixed bottom-0 w-full max-w-md bg-white border-t border-slate-200 flex justify-around py-2 z-40">
+      <button onclick="switchTab('home')" class="nav-btn text-indigo-600 text-[10px] font-bold flex flex-col items-center" data-tab="home"><i class="fa-solid fa-house text-base"></i><span>Нүүр</span></button>
+      <button onclick="switchTab('quiz')" class="nav-btn text-slate-400 text-[10px] font-bold flex flex-col items-center" data-tab="quiz"><i class="fa-solid fa-clipboard-question text-base"></i><span>Түвшин</span></button>
+      <button onclick="switchTab('roadmap')" class="nav-btn text-slate-400 text-[10px] font-bold flex flex-col items-center" data-tab="roadmap"><i class="fa-solid fa-bullseye text-base"></i><span>Эхлэх</span></button>
+      <button onclick="switchTab('solver')" class="nav-btn text-slate-400 text-[10px] font-bold flex flex-col items-center" data-tab="solver"><i class="fa-solid fa-wand-magic-sparkles text-base"></i><span>AI Багш</span></button>
+    </nav>
+  </div>
 
-          <div class="upload-box" onclick="triggerFileInput()">
-            <div id="upload-placeholder">
-              <i class="fa-solid fa-camera" style="font-size: 26px; color: #6366f1; margin-bottom: 6px;"></i>
-              <div style="font-size: 12px; font-weight: bold;">Бодлогын зургийг сонгох / дарах</div>
-              <p style="font-size: 10px; color: #94a3b8; margin-top: 2px;">Дэвтэр дээрх бодлогоо сонгоно уу</p>
-            </div>
-            <div id="image-preview-container" style="display: none;">
-              <img id="image-preview" src="" alt="Homework" style="max-height: 150px; max-width: 100%; border-radius: 10px;">
-            </div>
-          </div>
+  <script>
+    let xp = 0, lvl = 1, curQ = 0, ans = [];
+    const quiz = [
+      { q: "1. Үйлдэл: -8 - (-12) = ?", c: "6-р анги", opt: ["-20", "+4", "-4", "+20"], a: 1, tip: "6-р ангийн 'Сөрөг тоо'" },
+      { q: "2. Бутархай: 1/2 + 1/3 = ?", c: "6-р анги", opt: ["2/5", "5/6", "3/5", "1/6"], a: 1, tip: "6-р ангийн 'Бутархай'" },
+      { q: "3. Тэгшитгэл: 2x - 4 = 10 бол x = ?", c: "7-р анги", opt: ["3", "5", "7", "14"], a: 2, tip: "7-р ангийн 'Тэгшитгэл'" },
+      { q: "4. Хаалт задал: (x - 3)² = ?", c: "7-р анги", opt: ["x²-9", "x²-6x+9", "x²-3x+9", "x²+6x+9"], a: 1, tip: "7-р ангийн 'Томьёо'" },
+      { q: "5. Катет 3 ба 4 бол гипотенуз?", c: "8-р анги", opt: ["5", "7", "12", "25"], a: 0, tip: "8-р ангийн 'Пифагор'" }
+    ];
 
-          <div style="margin-top: 10px;">
-            <label style="font-size: 10px; font-weight: bold; color: #64748b;">Нэмэлт тайлбар (Хүсвэл):</label>
-            <input type="text" id="custom-prompt" placeh
+    function addXP(p) {
+      xp += p;
+      if (xp >= lvl * 100) { lvl++; xp = 0; alert("🎉 Түвшин " + lvl + " боллоо!"); }
+      document.getElementById('current-xp').innerText = xp;
+      document.getElementById('max-xp').innerText = lvl * 100;
+      document.getElementById('user-level').innerText = lvl;
+      document.getElementById('xp-progress-bar').style.width = Math.min(100, Math.round((xp / (lvl * 100)) * 100)) + "%";
+    }
+
+    function switchTab(id) {
+      document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+      document.getElementById('tab-' + id).classList.add('active');
+      document.querySelectorAll('.nav-btn').forEach(b => {
+        b.className = b.dataset.tab === id ? 'nav-btn text-indigo-600 text-[10px] font-bold flex flex-col items-center' : 'nav-btn text-slate-400 text-[10px] font-bold flex flex-col items-center';
+      });
+      window.scrollTo(0,0);
+    }
+
+    function startQuiz() {
+      document.getElementById('quiz-intro').classList.add('hidden');
+      document.getElementById('quiz-result').classList.add('hidden');
+      document.getElementById('quiz-container').classList.remove('hidden');
+      curQ = 0; ans = []; renderQ();
+    }
+
+    function renderQ() {
+      const q = quiz[curQ];
+      document.getElementById('quiz-progress-text').innerText = (curQ + 1) + " / 5";
+      document.getElementById('quiz-category-tag').innerText = q.c;
+      document.getElementById('quiz-progress-bar').style.width = ((curQ + 1) * 20) + "%";
+      document.getElementById('quiz-question').innerText = q.q;
+      const opts = document.getElementById('quiz-options');
+      opts.innerHTML = '';
+      q.opt.forEach((o, i) => {
+        const b = document.createElement('button');
+        b.className = "w-full text-left p-3 rounded-xl border border-slate-200 text-xs font-bold active:bg-indigo-50";
+        b.innerText = o;
+        b.onclick = () => { ans.push(i); curQ++; curQ < 5 ? renderQ() : finishQuiz(); };
+        opts.appendChild(b);
+      });
+    }
+
+    function finishQuiz() {
+      document.getElementById('quiz-container').classList.add('hidden');
+      document.getElementById('quiz-result').classList.remove('hidden');
+      let cor = 0, gap = null;
+      ans.forEach((a, i) => { if (a === quiz[i].a) cor++; else if (!gap) gap = quiz[i].tip; });
+      addXP(50);
+      document.getElementById('result-title').innerText = "Оношилгоо: " + cor + "/5 зөв";
+      document.getElementById('recommended-start').innerText = gap || "8-р ангийн үндсэн хичээл";
+      document.getElementById('step-status-1').innerText = cor < 3 ? "📍 ЭХЭЛ" : "✅ Нөхөгдсөн";
+      document.getElementById('step-status-1').className = cor < 3 ? "font-bold text-amber-500" : "font-bold text-emerald-500";
+    }
+
+    function checkMicro(v) {
+      const f = document.getElementById('micro-feedback');
+      f.classList.remove('hidden');
+      if (v === 2) { f.innerHTML = "<span class='text-emerald-600'>🎉 Зөв! -4 + 6 = 2 болно. +30 XP!</span>"; addXP(30); }
+      else { f.innerHTML = "<span class='text-rose-500'>Ойрхон байна! -4 + 6 = 2 шүү.</span>"; }
+    }
+
+    function previewImg(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const r = new FileReader();
+      r.onload = ev => {
+        const img = document.getElementById('img-prev');
+        img.src = ev.target.result;
+        img.classList.remove('hidden');
+        document.getElementById('up-ph').classList.add('hidden');
+      };
+      r.readAsDataURL(file);
+    }
+
+    function solve() {
+      const b = document.getElementById('sol-btn');
+      b.disabled = true; b.innerText = "Шинжилж байна...";
+      document.getElementById('sol-card').classList.remove('hidden');
+      setTimeout(() => {
+        document.getElementById('sol-text').innerHTML = `
+          <div class='bg-amber-50 p-2 rounded text-amber-900'>💡 <b>Гол санаа:</b> Хаалтын өмнөх тоогоор доторх тоо бүрийг үржүүлж хаалт задална.</div>
+          <div class='bg-slate-50 p-2 rounded font-mono'>1. 3(x - 2) = 12<br>2. 3x - 6 = 12<br>3. 3x = 18 => <b>x = 6</b></div>
+        `;
+        addXP(20); b.disabled = false; b.innerText = "AI Багшаар тайлбарлуулах (+20 XP)";
+      }, 800);
+    }
+  </script>
+</body>
+</html>
