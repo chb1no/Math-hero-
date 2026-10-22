@@ -7,7 +7,15 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    html, body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      overflow-x: hidden;
+      width: 100%;
+      position: relative;
+    }
+    * {
+      box-sizing: border-box;
+    }
     .hide-scrollbar::-webkit-scrollbar { display: none; }
     .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     @keyframes bounce-short {
@@ -19,7 +27,7 @@
 </head>
 <body class="bg-slate-100 text-slate-800 flex justify-center min-h-screen">
 
-  <div class="w-full max-w-md bg-white min-h-screen flex flex-col shadow-xl relative pb-20">
+  <div class="w-full max-w-md mx-auto bg-white min-h-screen flex flex-col shadow-xl relative pb-20 overflow-x-hidden">
     
     <!-- Дээд хэсэг: Статус, XP, Түвшин, Streak -->
     <header class="bg-indigo-600 text-white px-4 pt-4 pb-3 rounded-b-2xl shadow-md sticky top-0 z-30">
