@@ -7,25 +7,27 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    html, body { overflow-x: hidden !important; width: 100%; -webkit-tap-highlight-color: transparent; }
+    html, body { overflow-x: hidden !important; width: 100%; -webkit-tap-highlight-color: transparent; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     .tab-page { display: none !important; }
     .tab-page.active { display: block !important; }
+    .key-btn { touch-action: manipulation; }
+    .key-btn:active { transform: scale(0.93); }
   </style>
 </head>
 <body class="bg-slate-900 flex justify-center min-h-screen text-slate-800">
   <div class="w-full max-w-md bg-slate-50 min-h-screen flex flex-col relative pb-20 overflow-x-hidden">
     
     <!-- Header -->
-    <header class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-4 rounded-b-3xl shadow-lg sticky top-0 z-30">
+    <header class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white p-4 rounded-b-3xl shadow-lg sticky top-0 z-30">
       <div class="flex justify-between items-center mb-2">
         <div class="flex items-center gap-2">
-          <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center text-lg">🧙‍♂️</div>
+          <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center text-lg shadow-inner">🧙‍♂️</div>
           <div>
-            <div class="text-[10px] text-indigo-100">8-р анги</div>
+            <div class="text-[10px] text-indigo-100 font-bold uppercase">8-р анги</div>
             <div class="text-xs font-black">Түвшин <span id="user-level" class="text-amber-300">1</span></div>
           </div>
         </div>
-        <div class="bg-black/20 px-2.5 py-1 rounded-full text-xs font-bold text-amber-300">🔥 <span id="streak-count">1</span> өдөр</div>
+        <div class="bg-black/25 px-2.5 py-1 rounded-full text-xs font-bold text-amber-300">🔥 <span id="streak-count">1</span> өдөр</div>
       </div>
       <div class="flex justify-between text-[10px] font-bold text-indigo-100 mb-1">
         <span>Ахиц: <span id="current-xp" class="text-white">0</span> / <span id="max-xp">100</span> XP</span>
@@ -38,22 +40,23 @@
 
     <!-- Main Content -->
     <main class="flex-1 p-4 space-y-4">
+      
       <!-- TAB 1: Нүүр -->
       <section id="tab-home" class="tab-page active space-y-3">
-        <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-4 text-white shadow-md">
-          <span class="bg-white/20 text-[10px] font-bold px-2 py-0.5 rounded-full">💡 УРАМ</span>
-          <h3 class="text-sm font-bold mt-2">"Алдаа бол суралцах хамгийн сайн багш!"</h3>
-          <p class="text-xs text-indigo-100 mt-1">Ойлгохгүй байгаагаас битгий ай, бага багаар нөхье.</p>
+        <div class="bg-gradient-to-r from-violet-600 to-indigo-600 rounded-3xl p-5 text-white shadow-md">
+          <span class="bg-white/20 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">💡 Урам зориг</span>
+          <h3 class="text-sm font-bold mt-2">"Тоо бодох нь нууц код тайлахтай адил!"</h3>
+          <p class="text-xs text-indigo-100 mt-1">Ойлгохгүй байгаа бол сууриа сэргээгээд л амархан бодно.</p>
         </div>
 
-        <div class="grid grid-cols-2 gap-2">
+        <div class="grid grid-cols-2 gap-2.5">
           <button onclick="switchTab('quiz')" class="bg-white p-3.5 rounded-2xl border border-slate-200 text-left shadow-sm active:scale-95 transition">
-            <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center text-sm mb-2"><i class="fa-solid fa-clipboard-check"></i></div>
-            <div class="text-[10px] text-slate-400 font-bold uppercase">Оношилгоо</div>
+            <div class="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-sm mb-2"><i class="fa-solid fa-keyboard"></i></div>
+            <div class="text-[10px] text-slate-400 font-bold uppercase">Гараар шивэх</div>
             <div class="text-xs font-black text-slate-800">Түвшин шалгах</div>
           </button>
           <button onclick="switchTab('solver')" class="bg-white p-3.5 rounded-2xl border border-slate-200 text-left shadow-sm active:scale-95 transition">
-            <div class="w-8 h-8 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center text-sm mb-2"><i class="fa-solid fa-camera"></i></div>
+            <div class="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-sm mb-2"><i class="fa-solid fa-camera"></i></div>
             <div class="text-[10px] text-slate-400 font-bold uppercase">AI Багш</div>
             <div class="text-xs font-black text-slate-800">Зургаар бодох</div>
           </button>
@@ -79,36 +82,74 @@
         </div>
       </section>
 
-      <!-- TAB 2: Сорил -->
+      <!-- TAB 2: Сорил (Гараар шивдэг Math Keypad) -->
       <section id="tab-quiz" class="tab-page space-y-3">
-        <div id="quiz-intro" class="bg-white p-5 rounded-2xl border border-slate-200 text-center space-y-3">
-          <div class="text-3xl">🧭</div>
-          <h3 class="text-sm font-bold">8-р ангийн түвшин тогтоох сорил</h3>
-          <p class="text-xs text-slate-500">5 асуулттай жижиг тест. Хоцрогдлоо олж мэдэхэд тусална.</p>
-          <button onclick="startQuiz()" class="w-full py-2.5 bg-indigo-600 text-white rounded-xl font-bold text-xs shadow">Сорилыг эхлүүлэх 🚀</button>
+        <div id="quiz-intro" class="bg-white p-5 rounded-3xl border border-slate-200 text-center space-y-3 shadow-sm">
+          <div class="text-4xl">⌨️</div>
+          <h3 class="text-sm font-bold text-slate-800">Гараар шивж шалгах сорил</h3>
+          <p class="text-xs text-slate-500">
+            Таах боломжгүй! Өөрийн гараар тооцоолж, доод талын тусгай товчлуураар хариугаа шивээрэй.
+          </p>
+          <button onclick="startQuiz()" class="w-full py-3 bg-indigo-600 text-white rounded-2xl font-bold text-xs shadow-md">Сорилыг эхлүүлэх 🚀</button>
         </div>
 
-        <div id="quiz-container" class="hidden bg-white p-4 rounded-2xl border border-slate-200 space-y-3">
-          <div class="flex justify-between text-xs font-bold text-slate-500">
-            <span id="quiz-progress-text">Асуулт 1 / 5</span>
-            <span id="quiz-category-tag" class="text-indigo-600">Суурь</span>
+        <!-- Бодох хэсэг + Товчлуур -->
+        <div id="quiz-container" class="hidden space-y-3">
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+            <div class="flex justify-between text-xs font-bold text-slate-500">
+              <span id="quiz-progress-text">Асуулт 1 / 5</span>
+              <span id="quiz-category-tag" class="text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full text-[10px]">Суурь</span>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+              <div id="quiz-progress-bar" class="bg-indigo-600 h-full rounded-full transition-all duration-300" style="width: 20%"></div>
+            </div>
+            <div id="quiz-question" class="text-sm font-black text-slate-800 pt-1"></div>
+            
+            <!-- Хариу харагдах дэлгэц -->
+            <div class="pt-2">
+              <div class="text-[10px] font-bold text-slate-400 uppercase">Чиний хариу:</div>
+              <div id="user-input-display" class="w-full min-h-[44px] bg-slate-100 border-2 border-indigo-300 rounded-xl flex items-center justify-end px-3 font-mono text-base font-black text-indigo-700 tracking-wider">
+                <span class="animate-pulse text-indigo-400">|</span>
+              </div>
+            </div>
           </div>
-          <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
-            <div id="quiz-progress-bar" class="bg-indigo-600 h-full rounded-full" style="width: 20%"></div>
+
+          <!-- МАТЕМАТИКИЙН ТУСГАЙ ТОВЧЛУУР (MATH KEYPAD) -->
+          <div class="bg-white p-2.5 rounded-3xl border border-slate-200 shadow-md">
+            <div class="grid grid-cols-4 gap-1.5 text-center font-bold font-mono">
+              <button onclick="pressKey('7')" class="key-btn py-3 bg-slate-100 text-slate-800 rounded-xl text-sm">7</button>
+              <button onclick="pressKey('8')" class="key-btn py-3 bg-slate-100 text-slate-800 rounded-xl text-sm">8</button>
+              <button onclick="pressKey('9')" class="key-btn py-3 bg-slate-100 text-slate-800 rounded-xl text-sm">9</button>
+              <button onclick="pressKey('-')" class="key-btn py-3 bg-indigo-50 text-indigo-700 rounded-xl text-sm">-</button>
+
+              <button onclick="pressKey('4')" class="key-btn py-3 bg-slate-100 text-slate-800 rounded-xl text-sm">4</button>
+              <button onclick="pressKey('5')" class="key-btn py-3 bg-slate-100 text-slate-800 rounded-xl text-sm">5</button>
+              <button onclick="pressKey('6')" class="key-btn py-3 bg-slate-100 text-slate-800 rounded-xl text-sm">6</button>
+              <button onclick="pressKey('/')" class="key-btn py-3 bg-indigo-50 text-indigo-700 rounded-xl text-sm">/</button>
+
+              <button onclick="pressKey('1')" class="key-btn py-3 bg-slate-100 text-slate-800 rounded-xl text-sm">1</button>
+              <button onclick="pressKey('2')" class="key-btn py-3 bg-slate-100 text-slate-800 rounded-xl text-sm">2</button>
+              <button onclick="pressKey('3')" class="key-btn py-3 bg-slate-100 text-slate-800 rounded-xl text-sm">3</button>
+              <button onclick="pressKey('x')" class="key-btn py-3 bg-indigo-50 text-indigo-700 rounded-xl text-sm italic font-serif">x</button>
+
+              <button onclick="deleteKey()" class="key-btn py-3 bg-rose-50 text-rose-600 rounded-xl text-sm"><i class="fa-solid fa-delete-left"></i></button>
+              <button onclick="pressKey('0')" class="key-btn py-3 bg-slate-100 text-slate-800 rounded-xl text-sm">0</button>
+              <button onclick="pressKey('.')" class="key-btn py-3 bg-slate-100 text-slate-800 rounded-xl text-sm">.</button>
+              <button onclick="submitAnswer()" class="key-btn py-3 bg-emerald-500 text-white rounded-xl text-sm font-sans font-black shadow"><i class="fa-solid fa-check"></i></button>
+            </div>
           </div>
-          <div id="quiz-question" class="text-xs font-bold text-slate-800"></div>
-          <div id="quiz-options" class="space-y-2"></div>
         </div>
 
-        <div id="quiz-result" class="hidden bg-white p-5 rounded-2xl border border-slate-200 text-center space-y-3">
+        <!-- Үр дүн -->
+        <div id="quiz-result" class="hidden bg-white p-5 rounded-3xl border border-slate-200 text-center space-y-3 shadow-sm">
           <div class="text-4xl">🎯</div>
-          <h3 id="result-title" class="text-sm font-bold">Оношилгоо гарлаа</h3>
+          <h3 id="result-title" class="text-sm font-bold text-slate-800">Оношилгоо гарлаа</h3>
           <p id="result-desc" class="text-xs text-slate-500"></p>
-          <div class="bg-indigo-50 p-3 rounded-xl text-left">
+          <div class="bg-indigo-50 p-3 rounded-2xl text-left border border-indigo-100">
             <div class="text-[10px] font-bold text-indigo-500">📍 ЭХЛЭХ ЦЭГ:</div>
-            <div id="recommended-start" class="text-xs font-bold text-indigo-900 mt-0.5"></div>
+            <div id="recommended-start" class="text-xs font-black text-indigo-950 mt-0.5"></div>
           </div>
-          <button onclick="switchTab('roadmap')" class="w-full py-2.5 bg-indigo-600 text-white rounded-xl font-bold text-xs">Төлөвлөгөөгөө харах 📋</button>
+          <button onclick="switchTab('roadmap')" class="w-full py-3 bg-indigo-600 text-white rounded-2xl font-bold text-xs shadow">Төлөвлөгөөгөө харах 📋</button>
         </div>
       </section>
 
@@ -123,15 +164,6 @@
           <div class="bg-slate-50 p-2.5 rounded-xl font-mono text-[11px] text-slate-700">
             <div>5 - (-3) = 5 + 3 = 8</div>
             <div class="text-[10px] text-slate-400 font-sans mt-0.5">Хасах хасах нь нийлээд нэмэх (+) болно!</div>
-          </div>
-          <div class="pt-1">
-            <div class="text-xs font-bold mb-1">Шуурхай дасгал: -4 - (-6) = ?</div>
-            <div class="grid grid-cols-3 gap-2">
-              <button onclick="checkMicro(-10)" class="py-2 bg-slate-100 rounded-lg text-xs font-bold">-10</button>
-              <button onclick="checkMicro(2)" class="py-2 bg-slate-100 rounded-lg text-xs font-bold">+2</button>
-              <button onclick="checkMicro(-2)" class="py-2 bg-slate-100 rounded-lg text-xs font-bold">-2</button>
-            </div>
-            <div id="micro-feedback" class="text-xs font-bold mt-2 text-center hidden"></div>
           </div>
         </div>
       </section>
@@ -152,25 +184,29 @@
           <div id="sol-text"></div>
         </div>
       </section>
+
     </main>
 
     <!-- Bottom Nav -->
     <nav class="fixed bottom-0 w-full max-w-md bg-white border-t border-slate-200 flex justify-around py-2 z-40">
       <button onclick="switchTab('home')" class="nav-btn text-indigo-600 text-[10px] font-bold flex flex-col items-center" data-tab="home"><i class="fa-solid fa-house text-base"></i><span>Нүүр</span></button>
-      <button onclick="switchTab('quiz')" class="nav-btn text-slate-400 text-[10px] font-bold flex flex-col items-center" data-tab="quiz"><i class="fa-solid fa-clipboard-question text-base"></i><span>Түвшин</span></button>
+      <button onclick="switchTab('quiz')" class="nav-btn text-slate-400 text-[10px] font-bold flex flex-col items-center" data-tab="quiz"><i class="fa-solid fa-keyboard text-base"></i><span>Түвшин</span></button>
       <button onclick="switchTab('roadmap')" class="nav-btn text-slate-400 text-[10px] font-bold flex flex-col items-center" data-tab="roadmap"><i class="fa-solid fa-bullseye text-base"></i><span>Эхлэх</span></button>
       <button onclick="switchTab('solver')" class="nav-btn text-slate-400 text-[10px] font-bold flex flex-col items-center" data-tab="solver"><i class="fa-solid fa-wand-magic-sparkles text-base"></i><span>AI Багш</span></button>
     </nav>
   </div>
 
   <script>
-    let xp = 0, lvl = 1, curQ = 0, ans = [];
+    let xp = 0, lvl = 1, curQ = 0, currentInput = "";
+    let correctCount = 0, firstGap = null;
+
+    // Гараар шивж бодох даалгаврууд (Зөв хариуг тоо, тэмдэгтээр шууд тааруулна)
     const quiz = [
-      { q: "1. Үйлдэл: -8 - (-12) = ?", c: "6-р анги", opt: ["-20", "+4", "-4", "+20"], a: 1, tip: "6-р ангийн 'Сөрөг тоо'" },
-      { q: "2. Бутархай: 1/2 + 1/3 = ?", c: "6-р анги", opt: ["2/5", "5/6", "3/5", "1/6"], a: 1, tip: "6-р ангийн 'Бутархай'" },
-      { q: "3. Тэгшитгэл: 2x - 4 = 10 бол x = ?", c: "7-р анги", opt: ["3", "5", "7", "14"], a: 2, tip: "7-р ангийн 'Тэгшитгэл'" },
-      { q: "4. Хаалт задал: (x - 3)² = ?", c: "7-р анги", opt: ["x²-9", "x²-6x+9", "x²-3x+9", "x²+6x+9"], a: 1, tip: "7-р ангийн 'Томьёо'" },
-      { q: "5. Катет 3 ба 4 бол гипотенуз?", c: "8-р анги", opt: ["5", "7", "12", "25"], a: 0, tip: "8-р ангийн 'Пифагор'" }
+      { q: "1. Бод: -8 - (-12) = ?", c: "6-р анги: Сөрөг тоо", a: ["4", "+4"], tip: "6-р ангийн 'Сөрөг тооны хасах үйлдэл'" },
+      { q: "2. Тэгшитгэл: 2x - 4 = 10 бол x = ?", c: "7-р анги: Тэгшитгэл", a: ["7", "x=7"], tip: "7-р ангийн 'Шугаман тэгшитгэл бодох'" },
+      { q: "3. Бутархай: 1/2 + 1/3 = ?", c: "6-р анги: Бутархай", a: ["5/6"], tip: "6-р ангийн 'Энгийн бутархайн хуваарь ижилсүүлэх'" },
+      { q: "4. Бод: 3x = 18 бол x = ?", c: "7-р анги: Үржүүлэх", a: ["6", "x=6"], tip: "7-р ангийн 'Хувьсагчийг олох үйлдэл'" },
+      { q: "5. Катет 3 ба 4 бол гипотенуз c = ?", c: "8-р анги: Пифагор", a: ["5", "c=5"], tip: "8-р ангийн 'Пифагорын теорем'" }
     ];
 
     function addXP(p) {
@@ -191,47 +227,74 @@
       window.scrollTo(0,0);
     }
 
+    // Keypad Logic
+    function pressKey(char) {
+      if (currentInput.length < 10) {
+        currentInput += char;
+        updateInputDisplay();
+      }
+    }
+
+    function deleteKey() {
+      currentInput = currentInput.slice(0, -1);
+      updateInputDisplay();
+    }
+
+    function updateInputDisplay() {
+      const disp = document.getElementById('user-input-display');
+      disp.innerHTML = currentInput ? currentInput : `<span class="animate-pulse text-indigo-400">|</span>`;
+    }
+
     function startQuiz() {
       document.getElementById('quiz-intro').classList.add('hidden');
       document.getElementById('quiz-result').classList.add('hidden');
       document.getElementById('quiz-container').classList.remove('hidden');
-      curQ = 0; ans = []; renderQ();
+      curQ = 0; correctCount = 0; firstGap = null;
+      renderQ();
     }
 
     function renderQ() {
+      currentInput = "";
+      updateInputDisplay();
       const q = quiz[curQ];
       document.getElementById('quiz-progress-text').innerText = (curQ + 1) + " / 5";
       document.getElementById('quiz-category-tag').innerText = q.c;
       document.getElementById('quiz-progress-bar').style.width = ((curQ + 1) * 20) + "%";
       document.getElementById('quiz-question').innerText = q.q;
-      const opts = document.getElementById('quiz-options');
-      opts.innerHTML = '';
-      q.opt.forEach((o, i) => {
-        const b = document.createElement('button');
-        b.className = "w-full text-left p-3 rounded-xl border border-slate-200 text-xs font-bold active:bg-indigo-50";
-        b.innerText = o;
-        b.onclick = () => { ans.push(i); curQ++; curQ < 5 ? renderQ() : finishQuiz(); };
-        opts.appendChild(b);
-      });
+    }
+
+    function submitAnswer() {
+      if (!currentInput) {
+        alert("Хариугаа товчлуураар шивнэ үү!");
+        return;
+      }
+      const q = quiz[curQ];
+      const isCorrect = q.a.includes(currentInput.trim());
+
+      if (isCorrect) {
+        correctCount++;
+      } else if (!firstGap) {
+        firstGap = q.tip;
+      }
+
+      curQ++;
+      if (curQ < quiz.length) {
+        renderQ();
+      } else {
+        finishQuiz();
+      }
     }
 
     function finishQuiz() {
       document.getElementById('quiz-container').classList.add('hidden');
       document.getElementById('quiz-result').classList.remove('hidden');
-      let cor = 0, gap = null;
-      ans.forEach((a, i) => { if (a === quiz[i].a) cor++; else if (!gap) gap = quiz[i].tip; });
       addXP(50);
-      document.getElementById('result-title').innerText = "Оношилгоо: " + cor + "/5 зөв";
-      document.getElementById('recommended-start').innerText = gap || "8-р ангийн үндсэн хичээл";
-      document.getElementById('step-status-1').innerText = cor < 3 ? "📍 ЭХЭЛ" : "✅ Нөхөгдсөн";
-      document.getElementById('step-status-1').className = cor < 3 ? "font-bold text-amber-500" : "font-bold text-emerald-500";
-    }
 
-    function checkMicro(v) {
-      const f = document.getElementById('micro-feedback');
-      f.classList.remove('hidden');
-      if (v === 2) { f.innerHTML = "<span class='text-emerald-600'>🎉 Зөв! -4 + 6 = 2 болно. +30 XP!</span>"; addXP(30); }
-      else { f.innerHTML = "<span class='text-rose-500'>Ойрхон байна! -4 + 6 = 2 шүү.</span>"; }
+      document.getElementById('result-title').innerText = "Оношилгоо: " + correctCount + "/5 зөв";
+      document.getElementById('result-desc').innerText = correctCount === 5 ? "Маш сайн! Суурь бүх ойлголтоо бүрэн эзэмшсэн байна." : "Санаа зовох хэрэггүй, эхлэх цэгээ олчихлоо!";
+      document.getElementById('recommended-start').innerText = firstGap || "8-р ангийн үндсэн сэдэв";
+      document.getElementById('step-status-1').innerText = correctCount < 3 ? "📍 ЭХЭЛ" : "✅ Нөхөгдсөн";
+      document.getElementById('step-status-1').className = correctCount < 3 ? "font-bold text-amber-500" : "font-bold text-emerald-500";
     }
 
     function previewImg(e) {
@@ -253,7 +316,7 @@
       document.getElementById('sol-card').classList.remove('hidden');
       setTimeout(() => {
         document.getElementById('sol-text').innerHTML = `
-          <div class='bg-amber-50 p-2 rounded text-amber-900'>💡 <b>Гол санаа:</b> Хаалтын өмнөх тоогоор доторх тоо бүрийг үржүүлж хаалт задална.</div>
+          <div class='bg-amber-50 p-2 rounded text-amber-900'>💡 <b>Гол санаа:</b> Хаалтын өмнөх тоогоор доторх гишүүн бүрийг үржүүлж хаалт задална.</div>
           <div class='bg-slate-50 p-2 rounded font-mono'>1. 3(x - 2) = 12<br>2. 3x - 6 = 12<br>3. 3x = 18 => <b>x = 6</b></div>
         `;
         addXP(20); b.disabled = false; b.innerText = "AI Багшаар тайлбарлуулах (+20 XP)";
